@@ -60,7 +60,7 @@ function list(path) {
     var content = `
 	<div id="head_md" class="mdui-typo" style="display:none;padding: 20px 0;"></div>
 
-     <div class="mdui-row">
+	 <div class="mdui-row">
 	 <div class="search mdui-textfield mdui-textfield-expandable mdui-float-right">
         <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
         <input id="search" class="mdui-textfield-input" type="text" placeholder="Search" onkeyup="search()">
@@ -442,7 +442,6 @@ $(function() {
     var path = window.location.pathname;
     $("body").on("click", '.folder', function() {
         var url = $(this).attr('href');
-        url = encodeURI(url);
         history.pushState(null, null, url);
         render(url);
         return false;
@@ -450,7 +449,6 @@ $(function() {
 
     $("body").on("click", '.view', function() {
         var url = $(this).attr('href');
-        url = encodeURI(url);
         history.pushState(null, null, url);
         render(url);
         return false;
