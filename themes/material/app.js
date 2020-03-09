@@ -221,6 +221,7 @@ function file_code(path){
 	var name = path.split('/').pop();
 	var ext = name.split('.').pop();
 	var href = window.location.origin + path;
+	href = encodeURI(href);
 	var content = `
 <div class="mdui-container">
 <pre id="editor" ></pre>
@@ -260,6 +261,7 @@ function file_code(path){
 // 文件展示 视频 |mp4|webm|avi|
 function file_video(path){
 	var url = window.location.origin + path;
+	url = encodeURI(url);
 	var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="potplayer://${url}"><i class="mdui-icon material-icons">&#xe038;</i>在 potplayer 中播放</a>`;
 	if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
 	    playBtn = `	<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end"><i class="mdui-icon material-icons">&#xe039;</i>在mxplayer中播放</a>`;
@@ -289,6 +291,7 @@ function file_video(path){
 // 文件展示 音频 |mp3|m4a|wav|ogg|
 function file_audio(path){
 	var url = window.location.origin + path;
+	url = encodeURI(url);
 	var content = `
 <div class="mdui-container-fluid">
 	<br>
@@ -315,6 +318,7 @@ function file_audio(path){
 // 图片展示
 function file_image(path){
 	var url = window.location.origin + path;
+	url = encodeURI(url);
 	var content = `
 <div class="mdui-container-fluid">
 	<br>
