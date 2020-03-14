@@ -275,7 +275,7 @@ function file_video(path) {
     var content = `
 	<div class="mdui-row">
 	<br>
-	<video id="player" autoplay class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/poster.png" preload controls>
+	<video id="player" autoplay class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png" preload controls>
 	  <source src="${url}" type="video/mp4">
 	</video>
 	</div>
