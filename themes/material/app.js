@@ -323,6 +323,7 @@ function file_video(path) {
             ],
             previewThumbnails: {enabled: false},
             poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+            storage: { enabled: true, key: 'royal' },
         };
     }else{
         player.source = {
@@ -336,6 +337,7 @@ function file_video(path) {
             ],
             previewThumbnails: {enabled: false},
             poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+            storage: { enabled: true, key: 'royal' },
         };
     }
 }
