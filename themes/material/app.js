@@ -1,3 +1,5 @@
+document.write('<style>plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video {margin-top: 16px;}</style>');
+
 // initialize the page and load the necessary resources
 mdui.mutation();
 
@@ -38,7 +40,7 @@ function title(path) {
 // 渲染导航栏
 function nav(path) {
     var html = "";
-    html += `<a href="/" class="mdui-typo-headline folder" style="color: /*#ff5252*/ white"><svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="crown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="28px" style="margin-top: 9px;"><g><path fill="currentColor" d="M544 464v32a16 16 0 0 1-16 16H112a16 16 0 0 1-16-16v-32a16 16 0 0 1 16-16h416a16 16 0 0 1 16 16z" style="opacity: .5"></path><path fill="currentColor" d="M640 176a48 48 0 0 1-48 48 49 49 0 0 1-7.7-.8L512 416H128L55.7 223.2a49 49 0 0 1-7.7.8 48.36 48.36 0 1 1 43.7-28.2l72.3 43.4a32 32 0 0 0 44.2-11.6L289.7 85a48 48 0 1 1 60.6 0l81.5 142.6a32 32 0 0 0 44.2 11.6l72.4-43.4A47 47 0 0 1 544 176a48 48 0 0 1 96 0z"></path></g></svg></a>`;
+    html += `<a href="/" class="mdui-typo-headline folder" style="color: white"><svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="crown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="28px" style="margin-top: 9px;"><g><path fill="currentColor" d="M544 464v32a16 16 0 0 1-16 16H112a16 16 0 0 1-16-16v-32a16 16 0 0 1 16-16h416a16 16 0 0 1 16 16z" style="opacity: .5"></path><path fill="currentColor" d="M640 176a48 48 0 0 1-48 48 49 49 0 0 1-7.7-.8L512 416H128L55.7 223.2a49 49 0 0 1-7.7.8 48.36 48.36 0 1 1 43.7-28.2l72.3 43.4a32 32 0 0 0 44.2-11.6L289.7 85a48 48 0 1 1 60.6 0l81.5 142.6a32 32 0 0 0 44.2 11.6l72.4-43.4A47 47 0 0 1 544 176a48 48 0 0 1 96 0z"></path></g></svg></a>`;
     var arr = path.trim('/').split('/');
     var p = '/';
     if (arr.length > 0) {
@@ -119,7 +121,7 @@ function list_files(path, files) {
 
         item['modifiedTime'] = utc2beijing(item['modifiedTime']);
         item['size'] = humanFileSize(item['size'], false);
-        if (item['mimeType'] == 'application/vnd.google-apps.folder') {
+        if ((item['mimeType'] == 'application/vnd.google-apps.folder') && (item.name != "hidden")) {
             html += `<li class="mdui-list-item mdui-ripple"><a href="${p}" class="folder">
 	            <div class="mdui-col-xs-12 mdui-col-sm-8 mdui-text-truncate file-name"><i class="mdui-icon material-icons">folder_open</i> ${item.name}</div>
 	            <div class="mdui-col-sm-3 mdui-text-right file-date">${item['modifiedTime']}</div>
@@ -273,10 +275,8 @@ function file_video(path) {
         playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="vlc://${url}"><i class="mdui-icon material-icons">play_circle_outline</i> VLC Player</a>`;
     }
     var content = `
-	<div class="mdui-row">
-	<br>
-	<video id="player" autoplay class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png" preload controls>
-	  <source src="${url}" type="video/mp4">
+	<div class="mdui-row video">
+	<video id="player" class="mdui-video-fluid mdui-center" preload playsinline controls>
 	</video>
 	</div>
 	<div class="mdui-container-fluid">
@@ -294,6 +294,50 @@ function file_video(path) {
 <a download href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
     $('#content').html(content);
+	
+	const player = new Plyr('#player');
+    
+    var quality = 1080;
+    if (url.includes("2160")){
+        quality = 2160;
+    }else if (url.includes("1440")){
+        quality = 1440;
+    }
+    
+    var vid720 = window.location.origin + "/res/720" + path;
+    
+    if (isThere(vid720)){
+        player.source = {
+            type: 'video',
+            sources: [
+                {
+                    src: url,
+                    type: 'video/mp4',
+                    size: quality,
+                },
+                {
+                    src: vid720,
+                    type: 'video/mp4',
+                    size: 720,
+                },
+            ],
+            previewThumbnails: {enabled: false},
+            poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+        };
+    }else{
+        player.source = {
+            type: 'video',
+            sources: [
+                {
+                    src: url,
+                    type: 'video/mp4',
+                    size: quality,
+                },
+            ],
+            previewThumbnails: {enabled: false},
+            poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+        };
+    }
 }
 
 // 文件展示 音频 |mp3|m4a|wav|ogg|
