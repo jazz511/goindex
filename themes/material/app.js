@@ -1,4 +1,4 @@
-document.write('<style>plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video {margin-top: 16px;}</style>');
+document.write('<style>plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}</style>');
 
 // initialize the page and load the necessary resources
 mdui.mutation();
@@ -338,6 +338,37 @@ function file_video(path) {
             poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
         };
     }
+}
+
+function isThere(url) {
+	var req= new AJ(); // XMLHttpRequest object
+	try {
+		req.open("HEAD", url, false);
+		req.send(null);		
+		return req.status== 200 ? true : false;
+	}
+	catch (er) {
+		return false;
+	}
+}
+
+function AJ() {
+	var obj;
+	if (window.XMLHttpRequest) obj= new XMLHttpRequest(); 
+	else if (window.ActiveXObject){
+		try{
+			obj= new ActiveXObject('MSXML2.XMLHTTP.3.0');
+		}
+		catch(er){
+			try{
+				obj= new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch(er){
+				obj= false;
+			}
+		}
+	}
+	return obj;
 }
 
 // 文件展示 音频 |mp3|m4a|wav|ogg|
