@@ -1,4 +1,4 @@
-document.write('<style>plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}</style>');
+document.write('<style>.plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}</style>');
 
 // initialize the page and load the necessary resources
 mdui.mutation();
