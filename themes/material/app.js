@@ -308,71 +308,20 @@ function file_video(path) {
     
     var vid720 = window.location.origin + "/res/720" + path;
     
-    if (isThere(vid720)){
-        player.source = {
-            type: 'video',
-            sources: [
-                {
-                    src: url,
-                    type: 'video/mp4',
-                    size: quality,
-                },
-                {
-                    src: vid720,
-                    type: 'video/mp4',
-                    size: 720,
-                },
-            ],
-            previewThumbnails: {enabled: false},
-            poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
-            storage: { enabled: true, key: 'royal' },
-        };
-    }else{
-        player.source = {
-            type: 'video',
-            sources: [
-                {
-                    src: url,
-                    type: 'video/mp4',
-                    size: quality,
-                },
-            ],
-            previewThumbnails: {enabled: false},
-            poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
-            storage: { enabled: true, key: 'royal' },
-        };
-    }
-}
 
-function isThere(url) {
-	var req= new AJ(); // XMLHttpRequest object
-	try {
-		req.open("HEAD", url, false);
-		req.send(null);		
-		return req.status== 200 ? true : false;
-	}
-	catch (er) {
-		return false;
-	}
-}
-
-function AJ() {
-	var obj;
-	if (window.XMLHttpRequest) obj= new XMLHttpRequest(); 
-	else if (window.ActiveXObject){
-		try{
-			obj= new ActiveXObject('MSXML2.XMLHTTP.3.0');
-		}
-		catch(er){
-			try{
-				obj= new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			catch(er){
-				obj= false;
-			}
-		}
-	}
-	return obj;
+    player.source = {
+    	type: 'video',
+        sources: [
+			{
+            	src: url,
+               	type: 'video/mp4',
+                size: quality,
+        	},
+        ],
+        previewThumbnails: {enabled: false},
+        poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+        storage: { enabled: true, key: 'royal' },
+     };
 }
 
 // 文件展示 音频 |mp3|m4a|wav|ogg|
