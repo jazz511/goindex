@@ -228,6 +228,7 @@ function file_code(path) {
     var name = path.split('/').pop();
     var ext = name.split('.').pop();
     var href = window.location.origin + path;
+    href = decodeURI(href);
     href = encodeURI(href);
     var content = `
 <div class="code-editor">
@@ -269,6 +270,7 @@ function file_code(path) {
 // 文件展示 视频 |mp4|webm|avi|
 function file_video(path) {
     var url = window.location.origin + path;
+    url = decodeURI(url);
     url = encodeURI(url);
     var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="potplayer://${url}"><i class="mdui-icon material-icons">play_circle_filled</i> Potplayer</a>`;
     if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
@@ -376,6 +378,7 @@ function AJ() {
 // 文件展示 音频 |mp3|m4a|wav|ogg|
 function file_audio(path) {
     var url = window.location.origin + path;
+    url = decodeURI(url);
     url = encodeURI(url);
     var content = `
 <div class="mdui-container-fluid">
@@ -403,6 +406,7 @@ function file_audio(path) {
 // 图片展示
 function file_image(path) {
     var url = window.location.origin + path;
+    url = decodeURI(url);
     url = encodeURI(url);
     var content = `
 <div class="mdui-container-fluid">
