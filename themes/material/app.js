@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 document.write('<style>.plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true], .plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before, .plyr__control--overlaid:focus, .plyr__control--overlaid:hover {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}.plyr__control.plyr__tab-focus {box-shadow: 0 0 0 5px rgba(225,82,82,.5);}</style>');
 
 // initialize the page and load the necessary resources
@@ -44,7 +45,7 @@ function nav(path) {
     var arr = path.trim('/').split('/');
     var p = '/';
     if (arr.length > 0) {
-        for (i in arr) {
+        for (var i in arr) {
             var n = arr[i];
             n = decodeURI(n);
             p += n + '/';
@@ -96,7 +97,7 @@ function list(path) {
     $('#head_md').hide().html('');
     $.post(path, '{"password":"' + password + '"}', function(data, status) {
         var obj = jQuery.parseJSON(data);
-        if (typeof obj != 'null' && obj.hasOwnProperty('error') && obj.error.code == '401') {
+        if (typeof obj != null && obj.hasOwnProperty('error') && obj.error.code == '401') {
             var pass = prompt("Please enter password:");
             localStorage.setItem('password' + path, pass);
             if (pass != null && pass != "") {
@@ -104,7 +105,7 @@ function list(path) {
             } else {
                 history.go(-1);
             }
-        } else if (typeof obj != 'null') {
+        } else if (typeof obj != null) {
             list_files(path, obj.files);
         }
     });
@@ -112,24 +113,24 @@ function list(path) {
 
 function list_files(path, files) {
     html = "";
-    for (i in files) {
+    for (var i in files) {
         var item = files[i];
         var p = path + item.name + '/';
-        if (item['size'] == undefined) {
-            item['size'] = "";
+        if (item.size == undefined) {
+            item.size = "";
         }
 
-        item['modifiedTime'] = utc2beijing(item['modifiedTime']);
-        item['size'] = humanFileSize(item['size'], false);
-        if ((item['mimeType'] == 'application/vnd.google-apps.folder') && (item.name != "hidden")) {
+        item.modifiedTime = utc2beijing(item.modifiedTime);
+        item.size = humanFileSize(item.size, false);
+        if ((item.mimeType == 'application/vnd.google-apps.folder') && (item.name != "hidden")) {
             html += `<li class="mdui-list-item mdui-ripple"><a href="${p}" class="folder">
 	            <div class="mdui-col-xs-12 mdui-col-sm-8 mdui-text-truncate file-name"><i class="mdui-icon material-icons">folder_open</i> ${item.name}</div>
-	            <div class="mdui-col-sm-3 mdui-text-right file-date">${item['modifiedTime']}</div>
-	            <div class="mdui-col-sm-1 mdui-text-right file-size">${item['size']}</div>
+	            <div class="mdui-col-sm-3 mdui-text-right file-date">${item.modifiedTime}</div>
+	            <div class="mdui-col-sm-1 mdui-text-right file-size">${item.size}</div>
 	            </a>
 	        </li>`;
         } else {
-            var p = path + item.name;
+            p = path + item.name;
             var c = "file";
             if (item.name == "README.md") {
                 get_file(p, item, function(data) {
@@ -161,8 +162,8 @@ function list_files(path, files) {
 	          <i class="mdui-icon material-icons">${icon}</i>
 	            ${item.name}
 	          </div>
-	          <div class="mdui-col-sm-3 mdui-text-right file-date">${item['modifiedTime']}</div>
-	          <div class="mdui-col-sm-1 mdui-text-right file-size">${item['size']}</div>
+	          <div class="mdui-col-sm-3 mdui-text-right file-date">${item.modifiedTime}</div>
+	          <div class="mdui-col-sm-1 mdui-text-right file-size">${item.size}</div>
 	          </a>
 	      </li>`;
         }
@@ -172,7 +173,7 @@ function list_files(path, files) {
 
 
 function get_file(path, file, callback) {
-    var key = "file_path_" + path + file['modifiedTime'];
+    var key = "file_path_" + path + file.modifiedTime;
     var data = localStorage.getItem(key);
     if (data != undefined) {
         return callback(data);
@@ -296,32 +297,30 @@ function file_video(path) {
 <a download href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
     $('#content').html(content);
-	
-	const player = new Plyr('#player');
-    
+
+    const player = new Plyr('#player');
+
     var quality = 1080;
-    if (url.includes("2160")){
+    if (url.includes("2160")) {
         quality = 2160;
-    }else if (url.includes("1440")){
+    } else if (url.includes("1440")) {
         quality = 1440;
     }
-    
+
     var vid720 = window.location.origin + "/res/720" + path;
-    
+
 
     player.source = {
-    	type: 'video',
-        sources: [
-			{
-            	src: url,
-               	type: 'video/mp4',
-                size: quality,
-        	},
-        ],
-        previewThumbnails: {enabled: false},
+        type: 'video',
+        sources: [{
+            src: url,
+            type: 'video/mp4',
+            size: quality,
+        }, ],
+        previewThumbnails: { enabled: false },
         poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
         storage: { enabled: true, key: 'royal' },
-     };
+    };
 }
 
 // 文件展示 音频 |mp3|m4a|wav|ogg|
@@ -400,7 +399,7 @@ function utc2beijing(utc_datetime) {
     var unixtimestamp = timestamp + 8 * 60 * 60;
 
     // 时间戳转为时间
-    var unixtimestamp = new Date(unixtimestamp * 1000);
+    unixtimestamp = new Date(unixtimestamp * 1000);
     var year = 1900 + unixtimestamp.getYear();
     var month = "0" + (unixtimestamp.getMonth() + 1);
     var date = "0" + unixtimestamp.getDate();
@@ -464,7 +463,7 @@ function markdown(el, data) {
 window.onpopstate = function() {
     var path = window.location.pathname;
     render(path);
-}
+};
 
 
 $(function() {
@@ -489,5 +488,5 @@ $(function() {
 
 function search() {
     var e, t, n, l;
-    for (e = document.getElementById("search").value.toUpperCase(), t = document.getElementById("list").getElementsByTagName("li"), l = 0; l < t.length; l++)((n = t[l].getElementsByTagName("a")[0]).textContent || n.innerText).toUpperCase().indexOf(e) > -1 ? t[l].style.display = "" : t[l].style.display = "none"
+    for (e = document.getElementById("search").value.toUpperCase(), t = document.getElementById("list").getElementsByTagName("li"), l = 0; l < t.length; l++)((n = t[l].getElementsByTagName("a")[0]).textContent || n.innerText).toUpperCase().indexOf(e) > -1 ? t[l].style.display = "" : t[l].style.display = "none";
 }
