@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-document.write("<style>img{width: 100%; transition: opacity .2s,-webkit-filter .2s;opacity: 0}img[src]:hover{-webkit-filter: brightness(70%);}.img-container {position: relative;}.tag {position: absolute;right: 0px;bottom: 0px;z-index: 1000;background: rgba(0,0,0,0.35);border-top-left-radius: 4px;padding: 5px;color: #FFFFFF;}p{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;line-height: 1.5em;height: 3em;margin-top: 8px}a{text-decoration: none;color: white}.img-container{width: 100%;transition: opacity .3s;background-image: url(https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb640x360-min.png);background-size: cover;}img.initial,img.loaded,img.error {opacity: 1;}</style>");
+document.write("<style>img{width: 100%; transition: opacity .2s,-webkit-filter .2s;opacity: 0}img[src]:hover{-webkit-filter: brightness(70%);}.img-container {position: relative;}.tag {position: absolute;right: 0px;bottom: 0px;z-index: 1000;background: rgba(0,0,0,0.35);border-top-left-radius: 4px;padding: 5px;color: #FFFFFF;}p{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;line-height: 1.5em;height: 3em;margin-top: 8px}a{text-decoration: none;color: white}.img-container{width: 100%;transition: opacity .3s;background-image: url(https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb640x360-min.png);background-size: cover;}img.initial,img.loaded,img.error {opacity: 1;}/* PLYR */.plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true], .plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before, .plyr__control--overlaid:focus, .plyr__control--overlaid:hover {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}.plyr__control.plyr__tab-focus {box-shadow: 0 0 0 5px rgba(225,82,82,.5);}</style>");
 
 // initialize the page and load the necessary resources
 mdui.mutation();
@@ -8,7 +8,7 @@ function imgResize() {
     var width = $("img").width();
     $("img").height(width * 0.5625);
 }
- 
+
 $(window).on("resize orientationchange", imgResize);
 
 var lazyLoadInstance = new LazyLoad({
@@ -107,13 +107,13 @@ function list(path) {
     });
 }
 
-function sortDate(array){
-    array.sort(function(a, b){
-      var x = a.modifiedTime.toLowerCase();
-      var y = b.modifiedTime.toLowerCase();
-      if (y < x) {return -1;}
-      if (y > x) {return 1;}
-      return 0;
+function sortDate(array) {
+    array.sort(function(a, b) {
+        var x = a.modifiedTime.toLowerCase();
+        var y = b.modifiedTime.toLowerCase();
+        if (y < x) { return -1; }
+        if (y > x) { return 1; }
+        return 0;
     });
 }
 
@@ -154,7 +154,7 @@ function list_files(path, files) {
                 p += "?a=view";
                 c += " view";
             }
-            
+
             // file icons
             /*var fileicon;
             if (("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0)) {
@@ -167,42 +167,42 @@ function list_files(path, files) {
                 fileicon = "insert_drive_file";
             }
             */
-            
+
             var thumb = item.thumbnailLink;
-            if (thumb){
+            if (thumb) {
                 thumb = thumb.replace("=s220", "=h450-w800-p");
-            }else {
+            } else {
                 thumb = "";
             }
             var quality = "";
             var duration = "processing";
-            if (item.videoMediaMetadata){
+            if (item.videoMediaMetadata) {
                 quality = item.videoMediaMetadata.height;
-                
-                if (quality >= 2160){
+
+                if (quality >= 2160) {
                     quality = "4K";
-                }else if (quality >= 1440){
+                } else if (quality >= 1440) {
                     quality = "FHD+";
-                }else if (quality >= 1080){
+                } else if (quality >= 1080) {
                     quality = "FHD";
-                }else if (quality >= 720){
+                } else if (quality >= 720) {
                     quality = "HD";
-                }else if (quality > 0) {
+                } else if (quality > 0) {
                     quality = quality + "p";
                 }
-                
+
                 duration = item.videoMediaMetadata.durationMillis;
-                
-                if (duration == 0){
+
+                if (duration == 0) {
                     duration = "processing";
-                }else {
+                } else {
                     duration = millisToMinutesAndSeconds(duration);
                 }
             }
-            
+
             var name = item.name.split('.').slice(0, -1).join('.');
-            
-    html += `
+
+            html += `
     <div class="mdui-col">
         <div style="margin-bottom: 8px;margin-top: 4px;overflow: hidden;text-overflow: ellipsis;">
             <a href="${p}">
@@ -321,7 +321,7 @@ function file_code(path) {
 
 function _file_video(path) {
     var password = localStorage.getItem('password' + path);
-    
+
     $.post(path, '{"password":"' + password + '"}', function(data, status) {
         var obj = jQuery.parseJSON(data);
         if (typeof obj !== null && obj.hasOwnProperty('error') && obj.error.code == '401') {
@@ -339,28 +339,34 @@ function _file_video(path) {
 }
 
 
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 // 文件展示 视频 |mp4|webm|avi|
 function file_video(path, file) {
-    console.log(file);
-    //console.log(file.description);
-    
-    //var des = JSON.parse(file.description);
-    
-    //console.log(des.name);
+
+    var des;
+    if (isJson(file.description)) {
+        des = JSON.parse(file.description);
+    }
 
     var url = window.location.origin + path;
     url = decodeURI(url);
     url = encodeURI(url);
-    
+
     var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="potplayer://${url}"><i class="mdui-icon material-icons">play_circle_filled</i> Potplayer</a>`;
     if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
         playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="vlc://${url}"><i class="mdui-icon material-icons">play_circle_outline</i> VLC Player</a>`;
     }
     var content = `
-	<div class="mdui-row">
-	<br>
-	<video id="player" class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png" playsinline controls>
-	  <source src="${url}" type="video/mp4">
+	<div class="mdui-row video">
+	<video id="player" class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png" preload playsinline controls>
 	</video>
 	</div>
 	<div class="mdui-container-fluid">
@@ -378,7 +384,47 @@ function file_video(path, file) {
 <a download href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
     $('#content').html(content);
-    
+
+    const player = new Plyr('#player', {
+        speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
+        tooltips: { controls: true, seek: true },
+        storage: { enabled: true, key: 'royal' },
+        previewThumbnails: { enabled: false, src: '' },
+    });
+
+    var quality;
+    if (file.videoMediaMetadata) {
+        quality = file.videoMediaMetadata.height;
+    } else if (des && des.quality) {
+        quality = Math.max(...des.quality);
+    } else {
+        quality = 1080;
+    }
+
+    var qu = [{
+        src: url,
+        type: 'video/mp4',
+        size: quality,
+    }];
+
+    if (des && des.quality) {
+        for (var i in des.quality) {
+            if (des.quality[i] != quality) {
+                qu.push({
+                    src: window.location.origin + "/res/" + des.quality[i] + path,
+                    type: 'video/mp4',
+                    size: des.quality[i],
+                });
+            }
+        }
+    }
+
+    player.source = {
+        type: 'video',
+        sources: qu,
+        poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+    };
+
     var name = file.name.split('.').slice(0, -1).join('.');
     var thumb = file.thumbnailLink;
     var thumb96 = "";
@@ -387,7 +433,7 @@ function file_video(path, file) {
     var thumb256 = "";
     var thumb384 = "";
     var thumb512 = "";
-    if (thumb){
+    if (thumb) {
         thumb96 = thumb.replace("=s220", "=h128-w128-p");
         thumb128 = thumb.replace("=s220", "=h128-w128-p");
         thumb192 = thumb.replace("=s220", "=h192-w192-p");
@@ -395,20 +441,20 @@ function file_video(path, file) {
         thumb384 = thumb.replace("=s220", "=h384-w384-p");
         thumb512 = thumb.replace("=s220", "=h512-w512-p");
     }
-    
+
     if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: name,
-        //artist: 'Rick Astley',
-        artwork: [
-          { src: thumb96, sizes: '96x96',   type: 'image/png' },
-          { src: thumb128, sizes: '128x128', type: 'image/png' },
-          { src: thumb192, sizes: '192x192', type: 'image/png' },
-          { src: thumb256, sizes: '256x256', type: 'image/png' },
-          { src: thumb384, sizes: '384x384', type: 'image/png' },
-          { src: thumb512, sizes: '512x512', type: 'image/png' },
-        ]
-      });
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: name,
+            artist: document.siteName,
+            artwork: [
+                { src: thumb96, sizes: '96x96', type: 'image/png' },
+                { src: thumb128, sizes: '128x128', type: 'image/png' },
+                { src: thumb192, sizes: '192x192', type: 'image/png' },
+                { src: thumb256, sizes: '256x256', type: 'image/png' },
+                { src: thumb384, sizes: '384x384', type: 'image/png' },
+                { src: thumb512, sizes: '512x512', type: 'image/png' },
+            ]
+        });
     }
 }
 
@@ -483,10 +529,10 @@ function utc2beijing(utc_datetime) {
     timestamp = timestamp / 1000;
 
     // 增加8个小时，北京时间比utc时间多八个时区
-    var unixtimestamp = timestamp + 8 * 60 * 60;
+    var unixtimestamp = timestamp + 1 * 60 * 60;
 
     // 时间戳转为时间
-    var unixtimestamp = new Date(unixtimestamp * 1000);
+    unixtimestamp = new Date(unixtimestamp * 1000);
     var year = 1900 + unixtimestamp.getYear();
     var month = "0" + (unixtimestamp.getMonth() + 1);
     var date = "0" + unixtimestamp.getDate();
