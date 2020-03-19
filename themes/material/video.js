@@ -205,7 +205,7 @@ function list_files(path, files) {
             html += `
     <div class="mdui-col">
         <div style="margin-bottom: 8px;margin-top: 4px;overflow: hidden;text-overflow: ellipsis;">
-            <a href="${p}">
+            <a href="${p}" class="view">
                 <div class="img-container">
                     <img data-src="${thumb}" class="mdui-img-fluid mdui-img-rounded thumb lazy" />
                     <div class="tag"><b>${quality}</b> ${duration}</div>
