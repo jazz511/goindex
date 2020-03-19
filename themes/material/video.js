@@ -387,9 +387,23 @@ function file_video(path, file) {
 
     const player = new Plyr('#player', {
         speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
-        tooltips: { controls: true, seek: true },
+        tooltips: { controls: false, seek: true },
         storage: { enabled: true, key: 'royal' },
-        previewThumbnails: { enabled: false, src: '' },
+        previewThumbnails: { enabled: false },
+        controls: [
+            'play-large', // The large play button in the center
+            'rewind', // Rewind by the seek time (default 10 seconds)
+            'play', // Play/pause playback
+            'fast-forward', // Fast forward by the seek time (default 10 seconds)
+            'progress', // The progress bar and scrubber for playback and buffering
+            'current-time', // The current time of playback
+            'duration', // The full duration of the media
+            'captions', // Toggle captions
+            'settings', // Settings menu
+            'pip', // Picture-in-picture (currently Safari only)
+            'airplay', // Airplay (currently Safari only)
+            'fullscreen', // Toggle fullscreen
+        ],
     });
 
     var quality;
