@@ -197,7 +197,7 @@ a.folder {
 }
 
 .plyr__control--overlaid {
-    background: rgba(255, 82, 82, .8);
+    background: rgba(255, 82, 82, .8) !important;
 }
 
 .plyr--video .plyr__control.plyr__tab-focus,
@@ -210,7 +210,7 @@ a.folder {
 }
 
 .plyr__control.plyr__tab-focus {
-    box-shadow: 0 0 0 5px rgba(225, 82, 82, .5);
+    box-shadow: 0 0 0 5px rgba(225, 82, 82, .5) !important;
 }
 
 @media screen and (max-width: 633px) {
