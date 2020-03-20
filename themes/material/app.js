@@ -30,13 +30,13 @@ function render(path) {
 }
 
 
-// 渲染 title
+// Render title
 function title(path) {
     path = decodeURI(path);
     $('title').html(document.siteName + ' - ' + path);
 }
 
-// 渲染导航栏
+// Render nav bar
 function nav(path) {
     var html = "";
     html += `<a href="/" class="mdui-typo-headline folder" style="color: white"><svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="crown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="28px" style="margin-top: 9px;"><g><path fill="currentColor" d="M544 464v32a16 16 0 0 1-16 16H112a16 16 0 0 1-16-16v-32a16 16 0 0 1 16-16h416a16 16 0 0 1 16 16z" style="opacity: .5"></path><path fill="currentColor" d="M640 176a48 48 0 0 1-48 48 49 49 0 0 1-7.7-.8L512 416H128L55.7 223.2a49 49 0 0 1-7.7.8 48.36 48.36 0 1 1 43.7-28.2l72.3 43.4a32 32 0 0 0 44.2-11.6L289.7 85a48 48 0 1 1 60.6 0l81.5 142.6a32 32 0 0 0 44.2 11.6l72.4-43.4A47 47 0 0 1 544 176a48 48 0 0 1 96 0z"></path></g></svg></a>`;
@@ -56,7 +56,7 @@ function nav(path) {
     $('#nav').html(html);
 }
 
-// 渲染文件列表
+// Render file list
 function list(path) {
     var content = `
 	<div id="head_md" class="mdui-typo" style="display:none;padding: 20px 0;"></div>
@@ -184,8 +184,7 @@ function get_file(path, file, callback) {
 }
 
 
-
-// 文件展示 ?a=view
+// File display ?a=view
 function file(path) {
     var name = path.split('/').pop();
     var ext = name.split('.').pop().toLowerCase().replace(`?a=view`, "");
@@ -210,7 +209,7 @@ function file(path) {
     }
 }
 
-// 文件展示 |html|php|css|go|java|js|json|txt|sh|md|
+// File display |html|php|css|go|java|js|json|txt|sh|md|
 function file_code(path) {
     var type = {
         "html": "html",
@@ -266,7 +265,7 @@ function file_code(path) {
     });
 }
 
-// 文件展示 视频 |mp4|webm|avi|
+// File display video
 function file_video(path) {
     var url = window.location.origin + path;
     url = decodeURI(url);
@@ -321,7 +320,7 @@ function file_video(path) {
     };
 }
 
-// 文件展示 音频 |mp3|m4a|wav|ogg|
+// File display audio
 function file_audio(path) {
     var url = window.location.origin + path;
     url = decodeURI(url);
@@ -349,7 +348,7 @@ function file_audio(path) {
 }
 
 
-// 图片展示
+// Picture display
 function file_image(path) {
     var url = window.location.origin + path;
     url = decodeURI(url);
@@ -379,24 +378,26 @@ function file_image(path) {
 }
 
 
-//时间转换
+// Convert time
 function utc2beijing(utc_datetime) {
-    // 转为正常的时间格式 年-月-日 时:分:秒
+    // Convert to normal time format year-month-day hour:minutes:seconds
     var T_pos = utc_datetime.indexOf('T');
     var Z_pos = utc_datetime.indexOf('Z');
     var year_month_day = utc_datetime.substr(0, T_pos);
     var hour_minute_second = utc_datetime.substr(T_pos + 1, Z_pos - T_pos - 1);
     var new_datetime = year_month_day + " " + hour_minute_second; // 2017-03-31 08:02:06
 
-    // 处理成为时间戳
+    // processing becomes timestamp
     timestamp = new Date(Date.parse(new_datetime));
     timestamp = timestamp.getTime();
     timestamp = timestamp / 1000;
 
-    // 增加8个小时，北京时间比utc时间多八个时区
-    var unixtimestamp = timestamp + 8 * 60 * 60;
+    // add time zone offset
+    var x = new Date();
+    var currentTimeZoneOffset = x.getTimezoneOffset();
+    var unixtimestamp = timestamp + currentTimeZoneOffset * 60;
 
-    // 时间戳转为时间
+    // Timestamp to time
     unixtimestamp = new Date(unixtimestamp * 1000);
     var year = 1900 + unixtimestamp.getYear();
     var month = "0" + (unixtimestamp.getMonth() + 1);
@@ -410,12 +411,7 @@ function utc2beijing(utc_datetime) {
         second.substring(second.length - 2, second.length);
 }
 
-// bytes自适应转换到KB,MB,GB
-function formatFileSize(bytes) {
-    if (bytes >= 1000000000) { bytes = (bytes / 1000000000).toFixed(2) + ' GB'; } else if (bytes >= 1000000) { bytes = (bytes / 1000000).toFixed(2) + ' MB'; } else if (bytes >= 1000) { bytes = (bytes / 1000).toFixed(2) + ' KB'; } else if (bytes > 1) { bytes = bytes + ' bytes'; } else if (bytes == 1) { bytes = bytes + ' byte'; } else { bytes = ''; }
-    return bytes;
-}
-
+// Convert bytes to kB, MB, GB,... 
 function humanFileSize(bytes, si) {
     if (!bytes) {
         bytes = '';
