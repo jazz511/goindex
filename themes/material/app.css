@@ -191,3 +191,34 @@ a.folder {
  ::-webkit-scrollbar-thumb {
     background: #484848;
 }
+
+.plyr--full-ui input[type=range] {
+    color: #ff5252!important;
+}
+
+.plyr__control--overlaid {
+    background: rgba(255, 82, 82, .8);
+}
+
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded=true],
+.plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before,
+.plyr__control--overlaid:focus,
+.plyr__control--overlaid:hover {
+    background: #ff5252!important;
+}
+
+.plyr__control.plyr__tab-focus {
+    box-shadow: 0 0 0 5px rgba(225, 82, 82, .5);
+}
+
+@media screen and (max-width: 633px) {
+    .video {
+        margin-top: 0 !important;
+    }
+}
+
+.video {
+    margin-top: 16px;
+}
