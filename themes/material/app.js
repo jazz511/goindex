@@ -193,11 +193,11 @@ function file(path) {
     }
 
     if ("|mp4|webm|avi|".indexOf(`|${ext}|`) >= 0) {
-        return file_video(path);
+        return _file_video(path);
     }
 
     if ("|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|m4v|".indexOf(`|${ext}|`) >= 0) {
-        return file_video(path);
+        return _file_video(path);
     }
 
     if ("|mp3|wav|ogg|m4a|flac|".indexOf(`|${ext}|`) >= 0) {
@@ -274,8 +274,27 @@ function isJson(str) {
     return true;
 }
 
+function _file_video(path) {
+    var password = localStorage.getItem('password' + path);
+
+    $.post(path, '{"password":"' + password + '"}', function(data, status) {
+        var obj = jQuery.parseJSON(data);
+        if (typeof obj !== null && obj.hasOwnProperty('error') && obj.error.code == '401') {
+            var pass = prompt("Please enter password:");
+            localStorage.setItem('password' + path, pass);
+            if (pass != null && pass != "") {
+                file_video(path);
+            } else {
+                history.go(-1);
+            }
+        } else if (typeof obj != null) {
+            file_video(path, obj);
+        }
+    });
+}
+
 // File display video
-function file_video(path) {
+function file_video(path, file) {
 
     var des;
     if (isJson(file.description)) {
@@ -366,11 +385,12 @@ function file_video(path) {
                 kind: 'captions',
                 //label: 'English',
                 srclang: lang,
-                src: window.location.origin + "/hidden/sub/" + lang + path,
+                src: window.location.origin + "/hidden/sub/" + lang + path + ".vtt",
             });
         });
     }
-
+    console.log(file);
+    console.log(sub);
     player.source = {
         type: 'video',
         sources: qu,
