@@ -120,7 +120,7 @@ function list_files(path, files) {
 
         item.modifiedTime = utc2beijing(item.modifiedTime);
         item.size = humanFileSize(item.size, false);
-        if ((item.mimeType == 'application/vnd.google-apps.folder') && (item.name != "hidden")) {
+        if (item.name == "hidden") {} else if ((item.mimeType == 'application/vnd.google-apps.folder')) {
             html += `<li class="mdui-list-item mdui-ripple"><a href="${p}" class="folder">
 	            <div class="mdui-col-xs-12 mdui-col-sm-8 mdui-text-truncate file-name"><i class="mdui-icon material-icons">folder_open</i> ${item.name}</div>
 	            <div class="mdui-col-sm-3 mdui-text-right file-date">${item.modifiedTime}</div>
@@ -267,6 +267,12 @@ function file_code(path) {
 
 // File display video
 function file_video(path) {
+
+    var des;
+    if (isJson(file.description)) {
+        des = JSON.parse(file.description);
+    }
+
     var url = window.location.origin + path;
     url = decodeURI(url);
     url = encodeURI(url);
@@ -295,29 +301,91 @@ function file_video(path) {
 	`;
     $('#content').html(content);
 
-    const player = new Plyr('#player');
+    const player = new Plyr('#player', {
+        speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
+        tooltips: { controls: false, seek: true },
+        storage: { enabled: true, key: 'royal' },
+        previewThumbnails: { enabled: false },
+        controls: [
+            'play-large', // The large play button in the center
+            'rewind', // Rewind by the seek time (default 10 seconds)
+            'play', // Play/pause playback
+            'fast-forward', // Fast forward by the seek time (default 10 seconds)
+            'progress', // The progress bar and scrubber for playback and buffering
+            'current-time', // The current time of playback
+            'duration', // The full duration of the media
+            'captions', // Toggle captions
+            'settings', // Settings menu
+            'pip', // Picture-in-picture (currently Safari only)
+            'airplay', // Airplay (currently Safari only)
+            'fullscreen', // Toggle fullscreen
+        ],
+    });
 
-    var quality = 1080;
-    if (url.includes("2160")) {
-        quality = 2160;
-    } else if (url.includes("1440")) {
-        quality = 1440;
+    var quality;
+    if (file.videoMediaMetadata) {
+        quality = file.videoMediaMetadata.height;
+    } else if (des && des.quality) {
+        quality = Math.max(...des.quality);
+    } else {
+        quality = 1080;
     }
 
-    var vid720 = window.location.origin + "/res/720" + path;
+    var qu = [{
+        src: url,
+        type: 'video/mp4',
+        size: quality,
+    }];
 
+    if (des && des.quality) {
+        for (var i in des.quality) {
+            if (des.quality[i] != quality) {
+                qu.push({
+                    src: window.location.origin + "/res/" + des.quality[i] + path,
+                    type: 'video/mp4',
+                    size: des.quality[i],
+                });
+            }
+        }
+    }
 
     player.source = {
         type: 'video',
-        sources: [{
-            src: url,
-            type: 'video/mp4',
-            size: quality,
-        }, ],
-        previewThumbnails: { enabled: false },
+        sources: qu,
         poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
-        storage: { enabled: true, key: 'royal' },
     };
+
+    var name = file.name.split('.').slice(0, -1).join('.');
+    var thumb = file.thumbnailLink;
+    var thumb96 = "";
+    var thumb128 = "";
+    var thumb192 = "";
+    var thumb256 = "";
+    var thumb384 = "";
+    var thumb512 = "";
+    if (thumb) {
+        thumb96 = thumb.replace("=s220", "=h128-w128-p");
+        thumb128 = thumb.replace("=s220", "=h128-w128-p");
+        thumb192 = thumb.replace("=s220", "=h192-w192-p");
+        thumb256 = thumb.replace("=s220", "=h256-w256-p");
+        thumb384 = thumb.replace("=s220", "=h384-w384-p");
+        thumb512 = thumb.replace("=s220", "=h512-w512-p");
+    }
+
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: name,
+            artist: document.siteName,
+            artwork: [
+                { src: thumb96, sizes: '96x96', type: 'image/png' },
+                { src: thumb128, sizes: '128x128', type: 'image/png' },
+                { src: thumb192, sizes: '192x192', type: 'image/png' },
+                { src: thumb256, sizes: '256x256', type: 'image/png' },
+                { src: thumb384, sizes: '384x384', type: 'image/png' },
+                { src: thumb512, sizes: '512x512', type: 'image/png' },
+            ]
+        });
+    }
 }
 
 // File display audio
