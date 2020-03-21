@@ -365,8 +365,6 @@ function file_video(path, file) {
         size: defaultQuality,
     }];
 
-    var sub = [];
-
     if (des && des.quality) {
         des.quality.forEach(quality => {
             if (quality != defalutQuality) {
@@ -379,18 +377,19 @@ function file_video(path, file) {
         });
     }
 
+    var sub = [];
+
     if (des && des.sub) {
         des.sub.forEach(lang => {
             sub.push({
                 kind: 'captions',
-                //label: 'English',
+                label: getLang(lang),
                 srclang: lang,
                 src: window.location.origin + "/hidden/sub/" + lang + path + ".vtt",
             });
         });
     }
-    console.log(file);
-    console.log(sub);
+
     player.source = {
         type: 'video',
         sources: qu,
@@ -428,6 +427,19 @@ function file_video(path, file) {
                 { src: thumb512, sizes: '512x512', type: 'image/png' },
             ]
         });
+    }
+}
+
+function getLang(langCode) {
+    switch (langCode) {
+        case "en":
+            return "English";
+        case "de":
+            return "German";
+        case "tr":
+            return "Turkish";
+        default:
+            return "Unknown";
     }
 }
 
