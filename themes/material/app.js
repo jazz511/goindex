@@ -352,7 +352,7 @@ function file_video(path) {
         des.quality.forEach(quality => {
             if (quality != defalutQuality) {
                 qu.push({
-                    src: window.location.origin + "/res/" + quality + path,
+                    src: window.location.origin + "/hidden/res/" + quality + path,
                     type: 'video/mp4',
                     size: quality,
                 });
@@ -361,29 +361,21 @@ function file_video(path) {
     }
 
     if (des && des.sub) {
-        des.sub.forEach(element => {
+        des.sub.forEach(lang => {
             sub.push({
-                // TODO
+                kind: 'captions',
+                //label: 'English',
+                srclang: lang,
+                src: window.location.origin + "/hidden/sub/" + lang + path,
             });
         });
-    }
-
-    if (des && des.quality) {
-        for (var i in des.quality) {
-            if (des.quality[i] != quality) {
-                qu.push({
-                    src: window.location.origin + "/res/" + des.quality[i] + path,
-                    type: 'video/mp4',
-                    size: des.quality[i],
-                });
-            }
-        }
     }
 
     player.source = {
         type: 'video',
         sources: qu,
         poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+        tracks: sub,
     };
 
     var name = file.name.split('.').slice(0, -1).join('.');
