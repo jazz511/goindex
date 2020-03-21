@@ -265,6 +265,15 @@ function file_code(path) {
     });
 }
 
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 // File display video
 function file_video(path) {
 
@@ -322,20 +331,42 @@ function file_video(path) {
         ],
     });
 
-    var quality;
+    var defaultQuality;
     if (file.videoMediaMetadata) {
-        quality = file.videoMediaMetadata.height;
+        defaultQuality = file.videoMediaMetadata.height;
     } else if (des && des.quality) {
-        quality = Math.max(...des.quality);
+        defaultQuality = Math.max(...des.quality);
     } else {
-        quality = 1080;
+        defaultQuality = 1080;
     }
 
     var qu = [{
         src: url,
         type: 'video/mp4',
-        size: quality,
+        size: defaultQuality,
     }];
+
+    var sub = [];
+
+    if (des && des.quality) {
+        des.quality.forEach(quality => {
+            if (quality != defalutQuality) {
+                qu.push({
+                    src: window.location.origin + "/res/" + quality + path,
+                    type: 'video/mp4',
+                    size: quality,
+                });
+            }
+        });
+    }
+
+    if (des && des.sub) {
+        des.sub.forEach(element => {
+            sub.push({
+                // TODO
+            });
+        });
+    }
 
     if (des && des.quality) {
         for (var i in des.quality) {
