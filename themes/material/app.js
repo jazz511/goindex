@@ -315,7 +315,7 @@ function file_video(path, file) {
 	</div>
 	<div class="mdui-container-fluid">
 	<br>${playBtn}
-	<!-- 固定标签 -->
+	<button id="lang" onclick="changeLang()" class="mdui-btn mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">language</i> Change language</button>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Direct download link</label>
 	  <input readonly class="mdui-textfield-input" type="text" value="${url}"/>
@@ -328,6 +328,7 @@ function file_video(path, file) {
 <a download href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
     $('#content').html(content);
+    $('#lang').hide();
 
     const player = new Plyr('#player', {
         speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
@@ -341,7 +342,7 @@ function file_video(path, file) {
             'fast-forward', // Fast forward by the seek time (default 10 seconds)
             'progress', // The progress bar and scrubber for playback and buffering
             'current-time', // The current time of playback
-            'duration', // The full duration of the media
+            //'duration', // The full duration of the media
             'captions', // Toggle captions
             'settings', // Settings menu
             'pip', // Picture-in-picture (currently Safari only)
@@ -397,6 +398,17 @@ function file_video(path, file) {
         tracks: sub,
     };
 
+    var video = document.getElementsByTagName("VIDEO")[0];
+    video.onloadeddata = function() {
+        if (typeof video.audioTracks == 'undefined') {
+            $('#lang').remove();
+        } else if (video.audioTracks.length != 2) {
+            $('#lang').remove();
+        } else {
+            $('#lang').show();
+        }
+    };
+
     var name = file.name.split('.').slice(0, -1).join('.');
     var thumb = file.thumbnailLink;
     var thumb96 = "";
@@ -428,6 +440,20 @@ function file_video(path, file) {
             ]
         });
     }
+}
+
+function changeLang() {
+    var video = document.getElementsByTagName("VIDEO")[0];
+    if (video.audioTracks[0].enabled == true) {
+        video.audioTracks[0].enabled = false;
+        video.audioTracks[1].enabled = true;
+    } else if (video.audioTracks[1].enabled == true) {
+        video.audioTracks[1].enabled = false;
+        video.audioTracks[0].enabled = true;
+    }
+    video.pause();
+    video.currentTime += -0.1;
+    video.play();
 }
 
 function getLang(langCode) {
