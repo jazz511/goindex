@@ -304,9 +304,9 @@ function file_video(path, file) {
     var url = window.location.origin + path;
     url = decodeURI(url);
     url = encodeURI(url);
-    var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="potplayer://${url}"><i class="mdui-icon material-icons">play_circle_filled</i> Potplayer</a>`;
+    var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent video-btn" href="potplayer://${url}"><i class="mdui-icon material-icons">play_circle_filled</i> Potplayer</a>`;
     if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
-        playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="vlc://${url}"><i class="mdui-icon material-icons">play_circle_outline</i> VLC Player</a>`;
+        playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent video-btn" href="vlc://${url}"><i class="mdui-icon material-icons">play_circle_outline</i> VLC Player</a>`;
     }
     var content = `
 	<div class="mdui-row video">
@@ -315,7 +315,7 @@ function file_video(path, file) {
 	</div>
 	<div class="mdui-container-fluid">
 	${playBtn}
-	<button id="lang" onclick="changeLang()" class="mdui-btn mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">language</i> Change language</button>
+	<button id="lang" onclick="changeLang()" class="mdui-btn mdui-ripple mdui-color-theme-accent video-btn"><i class="mdui-icon material-icons">language</i> Change language</button>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Direct download link</label>
 	  <input readonly class="mdui-textfield-input" type="text" value="${url}"/>
