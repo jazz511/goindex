@@ -125,6 +125,7 @@ a.mdui-typo-headline {
 
 .mdui-btn {
     border-radius: 16px;
+    margin-top: 12px;
 }
 
 .mdui-textfield .mdui-icon {

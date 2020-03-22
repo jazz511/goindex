@@ -314,7 +314,7 @@ function file_video(path, file) {
 	</video>
 	</div>
 	<div class="mdui-container-fluid">
-	<br>${playBtn}
+	${playBtn}
 	<button id="lang" onclick="changeLang()" class="mdui-btn mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">language</i> Change language</button>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Direct download link</label>
