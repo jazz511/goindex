@@ -189,6 +189,8 @@ function list_files(path, files) {
                     quality = "HD";
                 } else if (quality > 0) {
                     quality = quality + "p";
+                } else {
+                    quality = "";
                 }
 
                 duration = item.videoMediaMetadata.durationMillis;
