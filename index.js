@@ -1,11 +1,11 @@
 var authConfig = {
     // Cloudflare evironment variables
-    "siteName": SITE_NAME,
-    "root_pass": ROOT_PASS, // root password takes precedence over .password
+    "siteName": "",  // site name
+    "root_pass": "", // root password takes precedence over .password
     "client_id": "202264815644.apps.googleusercontent.com",
     "client_secret": "X4Z3ca8xfWDb1Voo-F9a7ZxJ",
-    "refresh_token": REFRESH_TOKEN, // authorization token
-    "root": "", // root folder id ( "root" for drive root)
+    "refresh_token": "", // authorization refresh token (follow readme )
+    "root": "", // root folder id ( "root" for drive's root)
     "favicon": "https://cdn.jsdelivr.net/gh/jazz511/goindex@red/assets/play_cloud.png"
 };
 
