@@ -5,8 +5,8 @@ var authConfig = {
     "client_id": "202264815644.apps.googleusercontent.com",
     "client_secret": "X4Z3ca8xfWDb1Voo-F9a7ZxJ",
     "refresh_token": REFRESH_TOKEN, // authorization token
-    "root": ROOT_DIR, // root folder id
-    "favicon": FAVICON
+    "root": "", // root folder id ( "root" for drive root)
+    "favicon": "https://cdn.jsdelivr.net/gh/jazz511/goindex@red/assets/play_cloud.png"
 };
 
 var gd;
@@ -18,10 +18,10 @@ var html = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
-  <link rel="shortcut icon" type="image/x-icon" href="${authConfig.favicon}">
+  <link rel="shortcut icon" type="image/png" href="${authConfig.favicon}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/themes/material/app.css">
-  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3,npm/markdown-it@10/dist/markdown-it.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/aykuxt/goindex@8ef7b94e9894cac77f53b11c8ce665c3ec8fc4e1/themes/material/app.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jazz511/goindex@red/themes/material/app.css">
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3,npm/markdown-it@10/dist/markdown-it.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/jazz11/goindex@red/themes/material/app.js"></script>
 </head>
 <body>
 </body>

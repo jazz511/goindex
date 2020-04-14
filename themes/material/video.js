@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-document.write("<style>img{width: 100%; transition: opacity .2s,-webkit-filter .2s;opacity: 0}img[src]:hover{-webkit-filter: brightness(70%);}.img-container {position: relative;}.tag {position: absolute;right: 0px;bottom: 0px;z-index: 1000;background: rgba(0,0,0,0.35);border-top-left-radius: 4px;padding: 5px;color: #FFFFFF;}p{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;line-height: 1.5em;height: 3em;margin-top: 8px}a{text-decoration: none;color: white}.img-container{width: 100%;transition: opacity .3s;background-image: url(https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb640x360-min.png);background-size: cover;}img.initial,img.loaded,img.error {opacity: 1;}/* PLYR */.plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true], .plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before, .plyr__control--overlaid:focus, .plyr__control--overlaid:hover {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}.plyr__control.plyr__tab-focus {box-shadow: 0 0 0 5px rgba(225,82,82,.5);}</style>");
+document.write("<style>img{width: 100%; transition: opacity .2s,-webkit-filter .2s;opacity: 0}img[src]:hover{-webkit-filter: brightness(70%);}.img-container {position: relative;}.tag {position: absolute;right: 0px;bottom: 0px;z-index: 1000;background: rgba(0,0,0,0.35);border-top-left-radius: 4px;padding: 5px;color: #FFFFFF;}p{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;line-height: 1.5em;height: 3em;margin-top: 8px}a{text-decoration: none;color: white}.img-container{width: 100%;transition: opacity .3s;background-image: url(https://cdn.jsdelivr.net/gh/jazz511/goindex@red/assets/thumb640x360-min.png);background-size: cover;}img.initial,img.loaded,img.error {opacity: 1;}/* PLYR */.plyr--full-ui input[type=range]{color: #ff5252!important;}.plyr__control--overlaid {background: rgba(255,82,82,.8);}.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true], .plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before, .plyr__control--overlaid:focus, .plyr__control--overlaid:hover {background: #ff5252!important;}@media screen and (max-width: 633px){#player {margin-top: 0 !important;}.video{margin-top: 0 !important;}}.video{margin-top: 16px;}.plyr__control.plyr__tab-focus {box-shadow: 0 0 0 5px rgba(225,82,82,.5);}</style>");
 
 // initialize the page and load the necessary resources
 mdui.mutation();
@@ -368,7 +368,7 @@ function file_video(path, file) {
     }
     var content = `
 	<div class="mdui-row video">
-	<video id="player" class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png" preload playsinline controls>
+	<video id="player" class="mdui-video-fluid mdui-center" poster="https://cdn.jsdelivr.net/gh/jazz511/goindex@red/assets/thumb1280x720-black-min.png" preload playsinline controls>
 	</video>
 	</div>
 	<div class="mdui-container-fluid">
@@ -438,7 +438,7 @@ function file_video(path, file) {
     player.source = {
         type: 'video',
         sources: qu,
-        poster: 'https://cdn.jsdelivr.net/gh/aykuxt/goindex@red/assets/thumb1280x720-black-min.png',
+        poster: 'https://cdn.jsdelivr.net/gh/jazz511/goindex@red/assets/thumb1280x720-black-min.png',
     };
 
     var name = file.name.split('.').slice(0, -1).join('.');
